@@ -1,4 +1,4 @@
-# App Marvel
+![alt text](./documentation/img/app.png)
 
 ## Sintaxis de los "commit"
 Se añaden unos prefijos para distinguir el tipo de "commit"

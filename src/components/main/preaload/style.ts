@@ -2,9 +2,7 @@ import { StyleSheet } from 'react-native'
 
 const styles =
 {
-    container: {
-        padding: 20
-    }
+    flex: { flex: 1 }
 }
 
 export default StyleSheet.create(styles)

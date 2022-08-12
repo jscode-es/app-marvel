@@ -3,6 +3,7 @@
 ## Sintaxis de los "commit"
 Se añaden unos prefijos para distinguir el tipo de "commit"
 
+- add: Añadir archivos nuevos
 - feat: Una nueva característica para el usuario.
 - fix: Arregla un bug que afecta al usuario.
 - perf: Cambios que mejoran el rendimiento del sitio.

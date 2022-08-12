@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Providers from '../../providers'
 
 import { LoginProvider } from '../../providers/src/login'
-import { ApiRequestProvider } from '../../providers/src/proxy'
+import { ApiRequestProvider } from '../../providers/src/api'
 
 const Main = () => {
 

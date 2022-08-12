@@ -1,0 +1,1 @@
+export type MarvelComicData = Array<{}>; //TODO: tipar los datos de cómics

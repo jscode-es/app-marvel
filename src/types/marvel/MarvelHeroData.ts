@@ -1,0 +1,1 @@
+export type MarvelHeroData = Array<{}> //TODO tipar los datos de héroes

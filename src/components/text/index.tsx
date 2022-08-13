@@ -2,7 +2,7 @@ import { Text } from 'react-native'
 
 import styles from './style'
 
-const Content = ({ children, type, style = {}, ...restOfProps }) => {
+const Content = ({ children, type = 'p', style = {}, ...restOfProps }) => {
 
     const styleText = [
         styles.text,

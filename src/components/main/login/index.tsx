@@ -1,23 +1,29 @@
-import { View, Animated, Dimensions } from 'react-native'
+import { View, Animated, Dimensions, ImageBackground, TouchableOpacity } from 'react-native'
 import { useEffect, useContext, useState, useRef, } from 'react'
 
+import Text from '../../text'
+import Input from '../../input'
+import login from './img/login.png'
 import style from './style'
 
-import Text from '../../text'
-
 import LoginContext from '../../../providers/src/login'
-import PreloadContext from '../../../providers/src/preload'
 
 const Login = () => {
 
+    // References
     const fadeIn = useRef(new Animated.Value(0)).current
 
-    const { isLogin, setLogin } = useContext(LoginContext)
-    const { isHide } = useContext(PreloadContext)
+    // Contexts
+    const { isShow, isLogin, setShow } = useContext(LoginContext)
+
+    // States
+    const [display, setDisplay] = useState('none')
 
     useEffect(() => {
 
-        if (!isHide && !isLogin) {
+        if (isShow) {
+
+            setDisplay('flex')
 
             let setting: Animated.TimingAnimationConfig = {
                 toValue: 1,
@@ -26,25 +32,68 @@ const Login = () => {
             }
 
             Animated.timing(fadeIn, setting).start()
+
+            return
         }
 
-    }, [isHide, isLogin])
 
-    let _style: any =
+
+        let setting: Animated.TimingAnimationConfig = {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true
+        }
+
+        Animated.timing(fadeIn, setting).start()
+
+        setTimeout(() => {
+            setDisplay('none')
+        }, 500);
+
+    }, [isShow])
+
+    let styleAnimated: any =
     {
         left: 0,
         bottom: 0,
         position: 'absolute',
-        backgroundColor: 'red',
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
-        opacity: fadeIn
+        opacity: fadeIn,
+        display
     }
+
+    let styleBlockLogin: any =
+    {
+        left: 0,
+        bottom: 0,
+        position: 'absolute',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        bacgroundColor: 'red',
+    }
+
+
+
 
     return (
 
-        <Animated.View style={_style}>
-            <Text type='h1'>Login</Text>
+        <Animated.View style={styleAnimated}>
+            <ImageBackground style={style.flexRelative} resizeMode="cover" source={login} />
+            <View style={styleBlockLogin}>
+                <TouchableOpacity style={style.close} onPress={() => setShow(false)} >
+                    <Text style={style.closeText}>X</Text>
+                </TouchableOpacity>
+                <View style={style.flexBottom}>
+                    <Text style={style.title}>Todo el mundo necesita un héroe</Text>
+                    <Text style={style.subtitle} type='small'>Informate todo lo que hacen tus héroes</Text>
+                    <Input placeholder='Correo electrónico' name='email' />
+                    <Input placeholder='Contraseña' name='pass' />
+                    <TouchableOpacity style={style.button} >
+                        <Text style={style.buttonText}>Acceder a tus comics</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </Animated.View>
 
     )

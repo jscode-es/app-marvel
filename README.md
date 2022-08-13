@@ -20,6 +20,8 @@ API (una segunda petición con los mismos parámetros no debe generar llamadas d
 red, si no obtener el valor transparentemente de dicho Proxy)
 6. Dar la posibilidad de cerrar la sesión
 
+![alt text](./documentation/img/views.png)
+
 ## Sintaxis de los "commit"
 Se añaden unos prefijos para distinguir el tipo de "commit"
 

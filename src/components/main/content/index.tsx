@@ -9,6 +9,7 @@ import Text from '../../text'
 
 import LoginContext from '../../../providers/src/login'
 import HeroesList from '../../heroesList'
+import Heroe from '../../heroe'
 
 const Content = () => {
 
@@ -80,6 +81,7 @@ const Content = () => {
 
             </View>
             <HeroesList />
+            <Heroe />
         </Animated.View>
 
     )

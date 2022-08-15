@@ -4,7 +4,7 @@ import style from './style'
 
 import Preload from './preaload'
 import Login from './login'
-/*import Content from './content' */
+import Content from './content'
 
 const Main = () => {
 
@@ -12,6 +12,7 @@ const Main = () => {
         <View style={style.container}>
             <Preload />
             <Login />
+            <Content />
         </View>
     )
 }

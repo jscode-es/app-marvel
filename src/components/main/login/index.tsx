@@ -1,20 +1,23 @@
-import { View, Animated, Dimensions, ImageBackground, TouchableOpacity } from 'react-native'
+import { View, Animated, ImageBackground, TouchableOpacity, Image } from 'react-native'
 import { useEffect, useContext, useState, useRef, } from 'react'
+import { useForm } from 'react-hook-form'
 
 import Text from '../../text'
 import Input from '../../input'
 import login from './img/login.png'
+import close from './img/close.png'
 import style from './style'
 
 import LoginContext from '../../../providers/src/login'
 
 const Login = () => {
 
+    const { control, handleSubmit } = useForm()
     // References
-    const fadeIn = useRef(new Animated.Value(0)).current
+    const opacity = useRef(new Animated.Value(0)).current
 
     // Contexts
-    const { isShow, isLogin, setShow } = useContext(LoginContext)
+    const { isShow, isLogin, setShow, setLogin } = useContext(LoginContext)
 
     // States
     const [display, setDisplay] = useState('none')
@@ -27,24 +30,22 @@ const Login = () => {
 
             let setting: Animated.TimingAnimationConfig = {
                 toValue: 1,
-                duration: 500,
+                duration: 350,
                 useNativeDriver: true
             }
 
-            Animated.timing(fadeIn, setting).start()
+            Animated.timing(opacity, setting).start()
 
             return
         }
 
-
-
         let setting: Animated.TimingAnimationConfig = {
             toValue: 0,
-            duration: 500,
+            duration: 350,
             useNativeDriver: true
         }
 
-        Animated.timing(fadeIn, setting).start()
+        Animated.timing(opacity, setting).start()
 
         setTimeout(() => {
             setDisplay('none')
@@ -52,44 +53,30 @@ const Login = () => {
 
     }, [isShow])
 
-    let styleAnimated: any =
-    {
-        left: 0,
-        bottom: 0,
-        position: 'absolute',
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
-        opacity: fadeIn,
-        display
+    const loginSubmit = (data: any) => {
+
+        //console.log('loginSubmit', data)
+        console.log({
+            setLogin
+        })
+
+        setLogin(true)
     }
-
-    let styleBlockLogin: any =
-    {
-        left: 0,
-        bottom: 0,
-        position: 'absolute',
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
-        bacgroundColor: 'red',
-    }
-
-
-
 
     return (
 
-        <Animated.View style={styleAnimated}>
-            <ImageBackground style={style.flexRelative} resizeMode="cover" source={login} />
-            <View style={styleBlockLogin}>
-                <TouchableOpacity style={style.close} onPress={() => setShow(false)} >
-                    <Text style={style.closeText}>X</Text>
+        <Animated.View style={[style.blockLogin, { opacity, display }]}>
+            <ImageBackground style={style.flexRelative} resizeMode='cover' source={login} />
+            <View style={style.blockLogin}>
+                <TouchableOpacity style={style.closeIcon} onPress={() => setShow(false)} >
+                    <Image style={style.close} source={close} />
                 </TouchableOpacity>
                 <View style={style.flexBottom}>
                     <Text style={style.title}>Todo el mundo necesita un héroe</Text>
                     <Text style={style.subtitle} type='small'>Informate todo lo que hacen tus héroes</Text>
-                    <Input placeholder='Correo electrónico' name='email' />
-                    <Input placeholder='Contraseña' name='pass' />
-                    <TouchableOpacity style={style.button} >
+                    <Input control={control} required={true} placeholder='Correo electrónico' name='email' />
+                    <Input control={control} required={true} secureTextEntry={true} placeholder='Contraseña' name='pass' />
+                    <TouchableOpacity style={style.button} onPress={loginSubmit} /* onPress={handleSubmit(loginSubmit)} */>
                         <Text style={style.buttonText}>Acceder a tus comics</Text>
                     </TouchableOpacity>
                 </View>

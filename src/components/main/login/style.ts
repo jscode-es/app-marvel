@@ -49,19 +49,31 @@ const styles: any =
         height: 35,
         marginTop: 5
     },
-    close:
+    closeIcon:
     {
         backgroundColor: 'orange',
-        height: 35,
-        width: 35,
+        width: 45,
+        height: 45,
         position: 'absolute',
-        top: 10,
-        right: 10,
-        borderRadius: 35
+        top: 20,
+        right: 20,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifycontent: 'center'
     },
-    closeText: {
-        textAlign: 'center',
-        color: 'white'
+    close: {
+        width: 20,
+        height: 20,
+        marginLeft: 12
+    },
+    blockLogin: {
+        left: 0,
+        bottom: 0,
+        position: 'absolute',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
     }
 }
 

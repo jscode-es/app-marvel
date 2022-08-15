@@ -1,4 +1,5 @@
-import { View, FlatList, Image } from 'react-native'
+import { View, FlatList, Image, TouchableOpacity } from 'react-native'
+import { useContext } from 'react'
 
 import style from './style'
 
@@ -6,6 +7,7 @@ import Text from '../text'
 import book from './img/book.png'
 
 import mock from './mock_result_api'
+import HeroeContext from '../../providers/src/heroe'
 
 /* export const useCachedRequests = (): [
     ApiRequestContextState<MarvelData>,
@@ -18,33 +20,47 @@ const HeroesList = () => {
 
   const data = mock.data.results
 
+  const {
+    setShow,
+    setLoad,
+    setContent } = useContext(HeroeContext)
+
   const onEndReached = () => {
     console.log('Fin de la lista')
   }
 
+
   const renderItem = ({ item }) => {
 
+    const clickItem = () => {
+      setContent(item)
+      setLoad(true)
+      setShow(true)
+    }
+
     return (
-      <View style={style.item}>
-        <View style={style.itemContent}>
-          <Image
-            resizeMode='cover'
-            style={style.itemImage}
-            source={{
-              uri: `${item.thumbnail.path}.${item.thumbnail.extension}`,
-            }} />
-        </View>
-        <View style={style.itemTitle}>
-          <Text type='span' style={style.itemName}>{item.name}</Text>
-          <View style={style.itemBook}>
+      <TouchableOpacity onPress={clickItem}>
+        <View style={style.item}>
+          <View style={style.itemContent}>
             <Image
               resizeMode='cover'
-              style={style.itemIcon}
-              source={book} />
-            <Text type='small' style={style.itemNum}>{item.comics.returned | 0}</Text>
+              style={style.itemImage}
+              source={{
+                uri: `${item.thumbnail.path}.${item.thumbnail.extension}`,
+              }} />
+          </View>
+          <View style={style.itemTitle}>
+            <Text type='span' style={style.itemName}>{item.name}</Text>
+            <View style={style.itemBook}>
+              <Image
+                resizeMode='cover'
+                style={style.itemIcon}
+                source={book} />
+              <Text type='small' style={style.itemNum}>{item.comics.returned | 0}</Text>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 

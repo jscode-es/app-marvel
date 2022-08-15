@@ -20,7 +20,7 @@ API (una segunda petición con los mismos parámetros no debe generar llamadas d
 red, si no obtener el valor transparentemente de dicho Proxy)
 6. Dar la posibilidad de cerrar la sesión
 
-![alt text](./documentation/img/views.jpg)
+![alt text](./documentation/img/views.png)
 
 ## Test unitarios
 Resultado de los test actuales

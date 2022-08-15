@@ -3,6 +3,7 @@ import * as ScreenOrientation from 'expo-screen-orientation'
 import { StatusBar } from 'react-native'
 import { LoginProvider } from './src/providers/src/login'
 import { ApiRequestProvider } from './src/providers/src/api'
+import { HeroeProvider } from './src/providers/src/heroe'
 
 export default () => {
 
@@ -12,7 +13,9 @@ export default () => {
     return (
         <LoginProvider>
             <ApiRequestProvider>
-                <Main />
+                <HeroeProvider>
+                    <Main />
+                </HeroeProvider>
             </ApiRequestProvider>
         </LoginProvider>)
 }

@@ -6,8 +6,8 @@ const getPaginationQueryStringParams = (maxResults: number, page: number): Pagin
     //listado de héroes con ${maxResults} resultados por página y página ${page}
 
     return {
-        limit: '',
-        offset: ''
+        limit: '1',
+        offset: '0'
     }
 }
 

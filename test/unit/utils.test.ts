@@ -6,7 +6,7 @@ import getNavigatableUrl from '../../src/utils/getNavigatableUrl'
 
 describe('utils', () => {
 
-    test.skip('generate md5', () => {
+    test('generate md5', () => {
 
         const data = md5('datos a cifrar')
         const hash = 'fb8281ae3f3cd77434ca29149a98fd5e'
@@ -14,7 +14,7 @@ describe('utils', () => {
         expect(data).toEqual(hash)
     })
 
-    test.skip('getAuthQueryStringParams', () => {
+    test('getAuthQueryStringParams', () => {
 
         const { PUBLIC_KEY, PRIVATE_KEY } = process.env
         const data = getAuthQueryStringParams()

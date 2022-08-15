@@ -22,6 +22,11 @@ red, si no obtener el valor transparentemente de dicho Proxy)
 
 ![alt text](./documentation/img/views.jpg)
 
+## Test unitarios
+Resultado de los test actuales
+
+![alt text](./documentation/img/test.png)
+
 ## Sintaxis de los "commit"
 Se añaden unos prefijos para distinguir el tipo de "commit"
 

@@ -21,6 +21,8 @@ red, si no obtener el valor transparentemente de dicho Proxy)
 6. Dar la posibilidad de cerrar la sesión
 
 ![alt text](./documentation/img/views.png)
+## Video demostración
+![alt text](./documentation/img/video.gif)
 
 ## Test unitarios
 Resultado de los test actuales

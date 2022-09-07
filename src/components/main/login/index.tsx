@@ -1,89 +1,150 @@
-import { View, Animated, ImageBackground, TouchableOpacity, Image } from 'react-native'
-import { useEffect, useContext, useState, useRef, } from 'react'
-import { useForm } from 'react-hook-form'
+// Mandatori module
+import { useEffect, useContext, useState, useRef } from 'react'
+import { View, ImageBackground, Image, TouchableOpacity, Animated } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import Text from '../../text'
-import Input from '../../input'
-import login from './img/login.png'
-import close from './img/close.png'
+// Style component
 import style from './style'
 
-import LoginContext from '../../../providers/src/login'
+// Contexts
+import LoginContext from '../../../providers/login'
+
+// Components
+import Text from '../../text'
+import Input from '../../input'
+
+// Data
+import text from '../../../assets/i18n/es'
+import portrait from '../../../assets/img/login.png'
+import close from '../../../assets/img/close.png'
+
+// Mock user
+import user from '../../../../mock/user'
 
 const Login = () => {
 
-    const { control, handleSubmit } = useForm()
-    // References
-    const opacity = useRef(new Animated.Value(0)).current
+	const { screen_2: screen } = text
 
-    // Contexts
-    const { isShow, isLogin, setShow, setLogin } = useContext(LoginContext)
+	// References
+	const opacity = useRef(new Animated.Value(0)).current
 
-    // States
-    const [display, setDisplay] = useState('none')
+	// Contexts
+	const { isShow, isLogin, setShow, setLogin } = useContext(LoginContext)
 
-    useEffect(() => {
+	// States
+	const [display, setDisplay] = useState('none')
+	const [isProcess, setProcess] = useState(false)
+	const [email, setEmail] = useState(null)
+	const [pass, setPass] = useState(null)
+	const [textBtn, setTextBtn] = useState(screen.btn_init)
+	const [styleBtn, setStyleBtn] = useState(style.button)
+	const [clear, setClear] = useState(false)
 
-        if (isShow) {
+	const btnSetWarn = (isWarn = false) => {
 
-            setDisplay('flex')
+		let text = 'btn_init'
+		let styles = 'button'
 
-            let setting: Animated.TimingAnimationConfig = {
-                toValue: 1,
-                duration: 350,
-                useNativeDriver: true
-            }
+		if (isWarn) {
+			text = 'btn_error'
+			styles = 'button_warn'
+		}
 
-            Animated.timing(opacity, setting).start()
+		setTextBtn(screen[text])
+		setStyleBtn(style[styles])
+	}
 
-            return
-        }
+	// Methods
+	const loginSubmit = async () => {
 
-        let setting: Animated.TimingAnimationConfig = {
-            toValue: 0,
-            duration: 350,
-            useNativeDriver: true
-        }
+		if (isProcess) return
 
-        Animated.timing(opacity, setting).start()
+		setProcess(true)
 
-        setTimeout(() => {
-            setDisplay('none')
-        }, 500);
+		if (email === user.email && pass === user.password) {
 
-    }, [isShow])
+			let data = JSON.stringify({
+				name: user.name,
+				surname: user.surname
+			})
 
-    const loginSubmit = (data: any) => {
+			await AsyncStorage.setItem('user', data)
 
-        //console.log('loginSubmit', data)
-        console.log({
-            setLogin
-        })
+			setProcess(false)
+			setEmail(null)
+			setPass(null)
+			setClear(true)
+			setLogin(true)
 
-        setLogin(true)
-    }
+			return
+		}
 
-    return (
+		btnSetWarn(true)
 
-        <Animated.View style={[style.blockLogin, { opacity, display }]}>
-            <ImageBackground style={style.flexRelative} resizeMode='cover' source={login} />
-            <View style={style.blockLogin}>
-                <TouchableOpacity style={style.closeIcon} onPress={() => setShow(false)} >
-                    <Image style={style.close} source={close} />
-                </TouchableOpacity>
-                <View style={style.flexBottom}>
-                    <Text style={style.title}>Todo el mundo necesita un héroe</Text>
-                    <Text style={style.subtitle} type='small'>Informate todo lo que hacen tus héroes</Text>
-                    <Input control={control} required={true} placeholder='Correo electrónico' name='email' />
-                    <Input control={control} required={true} secureTextEntry={true} placeholder='Contraseña' name='pass' />
-                    <TouchableOpacity style={style.button} onPress={loginSubmit} /* onPress={handleSubmit(loginSubmit)} */>
-                        <Text style={style.buttonText}>Acceder a tus comics</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </Animated.View>
+		setTimeout(() => { btnSetWarn(false); setProcess(false) }, 2000)
+	}
 
-    )
+	const closeScreen = () => {
+		setProcess(false)
+		setEmail(null)
+		setPass(null)
+		setShow(false)
+		setClear(true)
+	}
+
+	// Effects
+	useEffect(() => {
+
+		setClear(true)
+
+		if (isShow) {
+
+			setDisplay('flex')
+
+			let setting: Animated.TimingAnimationConfig = {
+				toValue: 1,
+				duration: 350,
+				useNativeDriver: true
+			}
+
+			Animated.timing(opacity, setting).start()
+
+			return
+		}
+
+		let setting: Animated.TimingAnimationConfig = {
+			toValue: 0,
+			duration: 350,
+			useNativeDriver: true
+		}
+
+		Animated.timing(opacity, setting).start()
+
+		setTimeout(() => setDisplay('none'), 500)
+
+	}, [isShow])
+
+	return (
+		<Animated.View style={[style.container, { opacity, display }]}>
+			<ImageBackground style={style.portrait} resizeMode='cover' source={portrait} />
+			<View style={style.center}>
+				<TouchableOpacity style={style.close} onPress={closeScreen} >
+					<Image style={style.closeIcon} source={close} />
+				</TouchableOpacity>
+				<View style={style.content}>
+					<Text style={style.title}>{screen.title}</Text>
+					<Text style={style.subtitle}>{screen.subtitle}</Text>
+					<Input control={setEmail} clear={clear} required={true} placeholder='Correo electrónico' name='email' />
+					<Input control={setPass} clear={clear} required={true} secureTextEntry={true} placeholder='Contraseña' name='pass' />
+					<TouchableOpacity onPress={loginSubmit}>
+						<View style={styleBtn}>
+							<Text style={style.buttonText}>{textBtn}</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
+			</View>
+		</Animated.View>
+	)
 }
 
 export default Login

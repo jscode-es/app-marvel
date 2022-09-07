@@ -1,20 +1,21 @@
+import { useRef, useEffect } from 'react'
 import { View, TextInput } from 'react-native'
-import { Controller } from 'react-hook-form'
 import styles from './style'
 
-const Input = ({ control, name, required = false, ...restOfProps }) => {
+const Input = ({ control, clear, ...restOfProps }) => {
 
-    return (
-        <View style={styles.container}>
-            <Controller
-                control={control}
-                name={name}
-                rules={{ required }}
-                render={({ field: { value, onChange, onBlur } }) => {
-                    return <TextInput {...restOfProps} value={value} onChangeText={onChange} onBlur={onBlur} />
-                }}
-            />
-        </View>)
+	const ref = useRef(null)
+
+	useEffect(() => {
+
+		if (clear) ref.current.clear()
+
+	}, [clear])
+
+	return (
+		<View style={styles.container}>
+			<TextInput ref={ref} onChangeText={data => control(data.trim().toLowerCase())} {...restOfProps} />
+		</View>)
 }
 
 export default Input

@@ -1,5 +1,9 @@
 ![alt text](./documentation/img/app.png)
 
+## Datos de acceso
+usuario:sgonzalez@jscode.es
+contraseña:1111
+
 ## Requisito del aplicativo
 
 1. Pantalla de login → persistencia de datos en proveedor (mail, nombre, apellidos)

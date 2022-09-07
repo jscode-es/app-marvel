@@ -1,21 +1,28 @@
+import './src/env'
+
+// Main content
 import Main from './src/components/main'
+
+// Extern module
 import * as ScreenOrientation from 'expo-screen-orientation'
 import { StatusBar } from 'react-native'
-import { LoginProvider } from './src/providers/src/login'
-import { ApiRequestProvider } from './src/providers/src/api'
-import { HeroeProvider } from './src/providers/src/heroe'
+
+// Providers
+import { LoginProvider } from './src/providers/login'
+import { ApiRequestProvider } from './src/providers/api'
+import { HeroeProvider } from './src/providers/heroe'
 
 export default () => {
 
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
-    StatusBar.setHidden(true)
+	ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+	StatusBar.setHidden(true)
 
-    return (
-        <LoginProvider>
-            <ApiRequestProvider>
-                <HeroeProvider>
-                    <Main />
-                </HeroeProvider>
-            </ApiRequestProvider>
-        </LoginProvider>)
+	return (
+		<LoginProvider>
+			<ApiRequestProvider>
+				<HeroeProvider>
+					<Main />
+				</HeroeProvider>
+			</ApiRequestProvider>
+		</LoginProvider>)
 }

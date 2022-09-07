@@ -4,65 +4,84 @@ import { useEffect, useContext, useState, useRef, } from 'react'
 import style from './style'
 
 import Text from '../text'
-import closeIcon from './img/close.png'
-import background from './img/fondo.png'
-import HeroeContext from '../../providers/src/heroe'
+import HeroeContext from '../../providers/heroe'
 
-import mock from './mock_result_comic'
+import getComic from '../../services/comic'
 
 const ComicList = () => {
 
-  const data = mock.data.results
+	const [comic, setComic] = useState([])
+	const [idHeroe, setIdHeroe] = useState(0)
+	const [offset, , setOffset]: any = useState(0)
+	const [limit, setLimit]: any = useState(20)
 
-  const {
-    setShow,
-    setLoad,
-    setContent } = useContext(HeroeContext)
+	const { content } = useContext(HeroeContext)
 
-  const onEndReached = () => {
-    console.log('Fin de la lista')
-  }
+	const fetching = async (id: number, offset: number) => {
 
-  const renderItem = ({ item }) => {
+		if (!id) return
 
-    const clickItem = () => {
-      setContent(item)
-      setLoad(true)
-      setShow(true)
-    }
+		let data = await getComic({ id, offset, limit })
 
-    return (
-      <TouchableOpacity onPress={clickItem}>
-        <View style={style.item}>
-          <View style={style.itemContent}>
-            <Image
-              resizeMode='cover'
-              style={style.itemImage}
-              source={{
-                uri: `${item.thumbnail.path}.${item.thumbnail.extension}`,
-              }} />
-          </View>
-          <View style={style.itemTitle}>
-            <Text type='span' style={style.itemName}>{item.title}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    )
-  }
+		if (!data) return
 
-  return (
-    <View style={style.container}>
-      <Text type='span' style={style.titleList}>Listado de comics</Text>
-      <Text type='small' style={style.subtitleList}>Una aventura  un sueño</Text>
-      <FlatList
-        style={style.list}
-        data={data}
-        numColumns={2}
-        renderItem={renderItem}
-        onEndReached={onEndReached}
-        keyExtractor={e => e.id}
-      />
-    </View>)
+		let list = data
+
+		setLimit(limit)
+		setComic(list)
+	}
+
+	const renderItem = ({ item }) => {
+
+		return (
+			<View style={style.item}>
+				<View style={style.itemContent}>
+					<View style={style.itemContent}>
+						<Image
+							resizeMode='cover'
+							style={style.itemImage}
+							source={{
+								uri: `${item?.thumbnail?.path}.${item?.thumbnail?.extension}`,
+							}} />
+					</View>
+				</View>
+			</View>)
+	}
+
+	const Comic = ({ comic }: any) => {
+		return <FlatList
+			style={style.list}
+			data={comic}
+			numColumns={2}
+			renderItem={renderItem}
+			keyExtractor={e => `comic_${idHeroe}_${e.id}`}
+		/>
+	}
+
+
+	useEffect(() => {
+
+		setComic([])
+
+		let { id } = content
+
+		if (!id) return
+
+		if (idHeroe !== id) {
+
+			setIdHeroe(id)
+		}
+
+		fetching(id, offset)
+
+	}, [content, offset])
+
+	return (
+		<View style={style.container}>
+			<Text type='span' style={style.titleList}>Listado de comics</Text>
+			<Text type='small' style={style.subtitleList}>Una aventura  un sueño</Text>
+			<Comic comic={comic} />
+		</View>)
 }
 
 export default ComicList

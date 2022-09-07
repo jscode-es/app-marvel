@@ -25,44 +25,48 @@ const styles: any =
 		height: Dimensions.get('window').height - MARGIN,
 		display: 'flex',
 		flexDirection: 'column',
-		justifyContent: 'flex-start'
+		justifyContent: 'flex-end',
+		alignItems: 'center'
 	},
-	close: {
-		backgroundColor: 'orange',
-		width: 45,
-		height: 45,
-		position: 'absolute',
-		top: 0,
-		right: 0,
-		borderRadius: 10,
-		display: 'flex',
-		alignItems: 'center',
-		flexDirection: 'row',
-		justifycontent: 'center',
-		zIndex: 1
+	content: {
+		width: '100%'
 	},
-	closeIcon: {
-
-		width: 20,
-		height: 20,
-		marginLeft: 12
-	},
-	top:
-	{
-		height: '30%'
-	},
-	mid:
-	{
-		height: '70%'
-	},
-	welcome:
-	{
+	title: {
 		color: 'white',
-		opacity: .8
+		textAlign: 'center',
+		fontSize: 30,
+		marginHorizontal: 30,
+		marginBottom: 5
 	},
-	user: {
+	subtitle: {
 		color: 'white',
-		fontWeight: 'bold'
+		opacity: .5,
+		textAlign: 'center',
+		fontSize: 15,
+		marginBottom: 10
+	},
+	button: {
+		backgroundColor: '#0a95ff',
+		borderRadius: 15,
+		paddingVertical: 5,
+		marginTop: 10,
+		marginBottom: 20,
+		width: '100%'
+	},
+	buttonText: {
+		textAlign: 'center',
+		color: 'white',
+		fontSize: 20,
+		height: 35,
+		marginTop: 5
+	},
+	buttonRegister: {
+	},
+	buttonRegisterText: {
+		textAlign: 'center',
+		color: 'white',
+		fontSize: 20,
+		opacity: .5
 	}
 }
 

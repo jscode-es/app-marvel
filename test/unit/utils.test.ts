@@ -6,51 +6,51 @@ import getNavigatableUrl from '../../src/utils/getNavigatableUrl'
 
 describe('utils', () => {
 
-    test('generate md5', () => {
+	test('generate md5', () => {
 
-        const data = md5('datos a cifrar')
-        const hash = 'fb8281ae3f3cd77434ca29149a98fd5e'
+		const data = md5('datos a cifrar')
+		const hash = 'fb8281ae3f3cd77434ca29149a98fd5e'
 
-        expect(data).toEqual(hash)
-    })
+		expect(data).toEqual(hash)
+	})
 
-    test('getAuthQueryStringParams', () => {
+	test('getAuthQueryStringParams', async () => {
 
-        const { PUBLIC_KEY, PRIVATE_KEY } = process.env
-        const data = getAuthQueryStringParams()
-        const hash = md5(`${data.ts}${PRIVATE_KEY}${PUBLIC_KEY}`)
+		const { PUBLIC_KEY, PRIVATE_KEY } = process.env
+		const data = await getAuthQueryStringParams()
+		const hash = await md5(`${data.ts}${PRIVATE_KEY}${PUBLIC_KEY}`)
 
-        expect(hash).toEqual(data.hash)
-    })
+		expect(hash).toEqual(data.hash)
+	})
 
-    test.skip('getPaginationQueryStringParams', () => {
+	test.skip('getPaginationQueryStringParams', () => {
 
-        const maxResults = 0
-        const page = 0
+		const maxResults = 0
+		const page = 0
 
-        const data = getPaginationQueryStringParams(maxResults, page)
+		const data = getPaginationQueryStringParams(maxResults, page)
 
-        expect(200).toEqual(200)
-    })
+		expect(200).toEqual(200)
+	})
 
-    test.skip('marvel proxy', async () => {
+	test('getNavigableUrl', async () => {
 
-        let a = await (proxy as any).apiInstance.get()
+		let url = getNavigatableUrl('https://gateway.marvel.com/v1/public/characters')
 
-        console.log(a)
+		expect(typeof url).toEqual('string')
 
-        expect(200).toEqual(200)
+	})
 
-    })
+	test.skip('marvel proxy', async () => {
 
-    test('getNavigableUrl', async () => {
+		let url = getNavigatableUrl('https://gateway.marvel.com/v1/public/characters')
+		let result = await (proxy as any).apiInstance.get(url)
+		let { status, data } = result
 
-        let a = getNavigatableUrl('https://gateway.marvel.com/v1/public/characters')
+		console.log(data)
 
-        console.log(a)
+		expect(status).toEqual(200)
 
-        expect(200).toEqual(200)
-
-    })
+	})
 
 })

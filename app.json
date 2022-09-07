@@ -1,6 +1,17 @@
 {
 	"expo": {
 		"name": "App Marvel",
-		"slug": "app-marvel"
+		"slug": "app-marvel",
+		"android": {
+			"package": "com.jscode.appmarvel"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "a67fa6f2-c800-4a8c-a543-a8a2bc2eddce"
+			}
+		},
+		"ios": {
+			"bundleIdentifier": "es.jscode.appmarvel"
+		}
 	}
 }
